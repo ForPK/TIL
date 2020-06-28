@@ -377,3 +377,24 @@ console.log(fucJoin.join(" # ")); // 1 # 2 # 3
 // - array.concat, spread ... > 값을 추가 add
 // - array.filter > 값을 제거 remove
 // - array.map, array.reduce > 값을 재가공 replace
+
+// reduce 배열이 주어졌을때 안에 있는 모든 값을 사용하여 연산해야할때
+anyNum = [1, 2, 3, 4, 5];
+
+let sum = 0;
+anyNum.forEach((a) => {
+  sum += a;
+  console.log(`${sum} + ${a}`);
+});
+
+console.log(sum);
+
+// 평균 구하기
+let avg = anyNum.reduce((accumulator, current, index, array) => {
+  if (index === array.length - 1) {
+    return (accumulator + current) / array.length;
+  }
+  return accumulator + current;
+}, 0 /* 초기 accumulator 값 */);
+
+console.log(avg);
