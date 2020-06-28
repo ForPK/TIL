@@ -25,7 +25,6 @@ function grade(score) {
 
 const div = document.getElementById("app");
 const num = grade("100");
-
 div.innerHTML = num;
 
 /* 화살표 함수 */
@@ -65,7 +64,7 @@ print(ironMan);
 print(captainAmerica);
 
 /* getter함수와 setter 함수 */
-/* get함수는 특정 값 조회할때마다 호출 */
+// get함수는 특정 값 조회할때마다 호출
 const numbers = {
   a: 1,
   b: 2,
@@ -76,11 +75,11 @@ const numbers = {
   },
 };
 
-// 호출()하려는게 아니고 조회만 하는데 실행이 됨.
+// get 호출()하려는게 아니고 조회만 하는데 실행이 됨.
 numbers.b = 5;
 console.log(numbers.sum);
 
-/* setter 특정값을 설정할때마다 */
+// setter 특정값을 설정할때마다
 const iguana = {
   _name: "수영이",
   get name() {
@@ -117,7 +116,7 @@ for (let i = 0; i < aa.length; i++) {
   console.log(aa[i]);
 }
 
-/* while 조건이 좀 더 까다로울때 사용. */
+/* while 조건이 좀 더 까다로울때 사용 */
 let i = 0;
 let isFun = false;
 
@@ -154,9 +153,154 @@ for (let anything of numbers) {
   console.log(anything);
 }
 
-/* continue, break */
+/* continue, break 반복문에서 사용할 수 있음 */
 for (let i = 0; i < 10; i++) {
   if (i === 4) continue; // 조건만족시 스킵
   console.log(i);
   if (i === 7) break;
 }
+
+/* 문제 */
+//숫자로 이루어진 배열이 주어졌을 때, 해당 숫자 배열안에 들어있는
+//숫자 중 3보다 큰 숫자로만 이루어진 배열을 새로 만들어서 반환해보세요.
+// function biggerThanThree(numbers) {
+//   /* 구현해보세요 */
+//   const array = [];
+//   for (let i = 0; i <= numbers.length; i++) {
+//     if (numbers[i] < 4) continue;
+//     array.push(numbers[i]);
+//   }
+//   return array;
+// }
+
+// const numbers = [1, 2, 3, 4, 5, 6, 7];
+// console.log(biggerThanThree(numbers)); // [4, 5, 6, 7]
+
+// export default biggerThanThree;
+
+// 정답
+function biggerThanThree(numbers) {
+  const array = [];
+  for (let i = 0; i < numbers.length; i++) {
+    if (numbers[i] > 3) {
+      array.push(numbers[i]);
+    }
+  }
+  return array;
+}
+
+const numbers = [1, 2, 3, 4, 5, 6, 7];
+console.log(biggerThanThree(numbers)); // [4, 5, 6, 7]
+
+export default biggerThanThree;
+
+/* 내장함수 */
+const animals = ["이구아나", "고양이", "다람쥐", "닭"];
+
+// for
+for (let i = 0; i < animals.length; i++) {
+  console.log(animals[i]);
+}
+
+// forEach
+function animal(ani) {
+  console.log(ani);
+}
+
+animals.forEach(animal);
+
+// 바로 선언
+animals.forEach(function (ani) {
+  console.log(ani);
+});
+
+// 화살표 함수
+animals.forEach((ani) => {
+  console.log(ani);
+});
+
+/* map */
+const nums = [3, 5, 7, 9];
+
+const array = [];
+
+for (let i = 0; i < nums.length; i++) {
+  array.push(nums[i] * nums[i]);
+}
+
+console.log(array);
+
+nums.forEach((n) => {
+  array.push(n * n);
+});
+
+console.log(array);
+
+// map
+const arrayTwo = nums.map((n) => n * n);
+console.log(arrayTwo);
+
+const obj = [
+  {
+    one: "이제는",
+    two: "내일은",
+  },
+  {
+    one: "자야할 시간",
+    two: "마저 이어서",
+  },
+];
+
+const connect = obj.map((m) => m.one);
+console.log(connect); //['이제는', '자야할시간']
+
+/* indexOf 특정 항목이 베열에서 몇 번 째 원소인지*/
+const any = ["영수", "수영", "애호박", "나랑친한척해줘"];
+const index = any.indexOf("수영");
+console.log(index); // 1
+// 일치하는 항목이 없다면 -1로 뜸
+
+/* findIndex 특정 값과 일치하는 것을 찾을때*/
+const disney = [
+  {
+    category: "duck",
+    name: "daisy",
+    fm: "female",
+  },
+  {
+    category: "duck",
+    name: "donald",
+    fm: "male",
+  },
+  {
+    category: "mouse",
+    name: "mini",
+    fm: "female",
+  },
+  {
+    category: "mouse",
+    name: "micky",
+    fm: "male",
+  },
+];
+
+const find = disney.findIndex((a) => a.name === "daisy");
+console.log(find); // 0
+
+// find 찾은 값 자체를 반환
+const find = disney.find((a) => a.name === "daisy");
+console.log(find); // {category: "duck", name: "daisy", fm: "female"}
+
+/* filter 특정 조건을 만족하는 원소를 찾아서 원소가지고 새로운 배열 만듬 */
+const keyFm = disney.filter((a) => a.fm === "male");
+console.log(keyFm); // male인 것만 가져와서 배열로 만들어줌
+
+/* splice 기존 배열을 건들이며 배열에서 제거 */
+const anyNum = [11, 22, 33, 44, 55];
+const anyNumIndex = anyNum.indexOf(22);
+console.log(anyNumIndex); // 1
+const spliced = anyNum.splice(anyNumIndex, 2); // 22로 부터 2개 지움
+console.log(spliced); // [22, 33] 제거되는 값
+console.log(anyNum); // [11, 44, 55]
+
+// slice 기존 배열을 건들이지 않으면서 제거
