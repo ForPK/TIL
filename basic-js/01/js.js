@@ -301,7 +301,7 @@ console.log(keyFm); // male인 것만 가져와서 배열로 만들어줌
 let anyNum = [11, 22, 33, 44, 55];
 
 // slice 기존 배열을 건들이지 않으면서 제거
-const sliced = anyNum.slice(0, 3); // 0번째부터 3번째 앞까지 제거
+const sliced = anyNum.slice(0, 3); // 0번째부터 3개 제거
 console.log(sliced); // [11, 22, 33] 제거되는 값
 console.log(anyNum); // [11, 22, 33, 44, 55]
 
@@ -398,3 +398,27 @@ let avg = anyNum.reduce((accumulator, current, index, array) => {
 }, 0 /* 초기 accumulator 값 */);
 
 console.log(avg);
+
+// reduce 꼭 숫자가 아니어도 됨
+let anyAB = ["a", "a", "b", "c", "b", "c", "a", "e", "a"];
+//위로 했을때 결과 값이 {a: 4, b: 2, c: 2, e: 1…}
+let anyABC = ["a", "a", "b", "c", "c", "e"];
+
+const abcReduce = anyABC.reduce(
+  (acc, crr) => {
+    if (acc[crr]) {
+      acc[crr] += 1;
+      console.log("if :");
+      console.log(acc[crr]);
+    } else {
+      acc[crr] = 1;
+      console.log("else :");
+      console.log(acc[crr]);
+    }
+    return acc;
+  },
+  {} /* 비어있는 객체 */
+);
+
+console.log(`total abcReduce :`);
+console.log(abcReduce); // {a: 2, b: 1, c: 2, e: 1…}
