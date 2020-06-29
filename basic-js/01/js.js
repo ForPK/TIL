@@ -314,11 +314,13 @@ console.log(anyNum); // [11, 44, 55]
 
 // shift & unshift 맨 앞
 // shift
+anyNum = [11, 22, 33, 44, 55];
+
 const fucShift = anyNum.shift();
 console.log(fucShift); // 11 맨 앞에 있는 원소 기존에서 꺼냄
 anyNum.shift();
 anyNum.shift();
-console.log(anyNum); // 넣은 만큼 모두 뺌
+console.log(anyNum); // 넣은 만큼 모두 뺌 [44, 55]
 
 // unshift
 anyNum = [11, 22, 33, 44, 55];
@@ -422,3 +424,14 @@ const abcReduce = anyABC.reduce(
 
 console.log(`total abcReduce :`);
 console.log(abcReduce); // {a: 2, b: 1, c: 2, e: 1…}
+
+/* 문제 */
+//숫자 배열이 주어졌을 때 10보다 큰 숫자의 갯수를 반환하는 함수를 만드세요.
+function countBiggerThanTen(numbers) {
+  /* 구현해보세요 */
+}
+
+const count = countBiggerThanTen([1, 2, 3, 5, 10, 20, 30, 40, 50, 60]);
+console.log(count); // 5
+
+export default countBiggerThanTen;
