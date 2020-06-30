@@ -427,8 +427,59 @@ console.log(abcReduce); // {a: 2, b: 1, c: 2, e: 1…}
 
 /* 문제 */
 //숫자 배열이 주어졌을 때 10보다 큰 숫자의 갯수를 반환하는 함수를 만드세요.
+
+// 1. for, if
+// function countBiggerThanTen(numbers) {
+//   let arr = [];
+//   for (let i = 0; i < numbers.length; i++) {
+//     if (numbers[i] > 10) {
+//       arr.push(numbers[i]);
+//     }
+//   }
+//    return arr.length;
+// }
+
+// const count = countBiggerThanTen([1, 2, 3, 5, 10, 20, 30, 40, 50, 60]);
+// console.log(count); // 5
+
+// export default countBiggerThanTen;
+
+// 2. reduce
+// function countBiggerThanTen(numbers) {
+//   let a = 0;
+//   numbers.reduce((acc, crr) => {
+//     if (crr > 10) {
+//       a += 1;
+//     }
+//   }, 0);
+//   return a;
+// }
+
+// const count = countBiggerThanTen([1, 2, 3, 5, 10, 20, 30, 40, 50, 60]);
+// console.log(count); // 5
+
+// export default countBiggerThanTen;
+
+//3. forEach
+// function countBiggerThanTen(numbers) {
+//   let array = [];
+//   numbers.forEach(function(num){
+//     if(num > 10) {
+//       array.push(num);
+//     }
+//   });
+//   return array.length;
+// }
+
+// const count = countBiggerThanTen([1, 2, 3, 5, 10, 20, 30, 40, 50, 60]);
+// console.log(count); // 5
+
+// export default countBiggerThanTen;
+
+//4. filter
 function countBiggerThanTen(numbers) {
-  /* 구현해보세요 */
+  const aa = numbers.filter((num) => num > 10);
+  return aa.length;
 }
 
 const count = countBiggerThanTen([1, 2, 3, 5, 10, 20, 30, 40, 50, 60]);
