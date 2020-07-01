@@ -180,6 +180,23 @@ for (let i = 0; i < 10; i++) {
 
 // export default biggerThanThree;
 
+// 0701 다시
+// function biggerThanThree(numbers) {
+//   /* 구현해보세요 */
+//   let array = [];
+//   for(let i = 0; i < numbers.length; i++) {
+//     if (numbers[i] > 3) {
+//       array.push(numbers[i]);
+//     }
+//   }
+//   return array;
+// }
+
+// const numbers = [1, 2, 3, 4, 5, 6, 7];
+// console.log(biggerThanThree(numbers)); // [4, 5, 6, 7]
+
+// export default biggerThanThree;
+
 // 정답
 function biggerThanThree(numbers) {
   const array = [];
@@ -486,3 +503,22 @@ const count = countBiggerThanTen([1, 2, 3, 5, 10, 20, 30, 40, 50, 60]);
 console.log(count); // 5
 
 export default countBiggerThanTen;
+
+function Animal(type, name, sound) {
+  // 객체 생성사 대문자 시작 + new 키워드 사용
+  this.type = type;
+  this.name = name;
+  this.sound = sound;
+  this.say = function () {
+    console.log(this.sound);
+  };
+}
+
+// 프로토타입 역할 : 객체 생성자로 무언가 만들었을때 그걸로 만든 것들끼리
+// 공유할 수 있는 어떤 값이나 함수
+
+const yssaurus = new Animal("이구아나", "영수", "이뻐");
+const sybaby = new Animal("이구아나", "수영", "날좀좋아해줘");
+
+yssaurus.name; // console was cleared
+sybaby.say(); // 날좀좋아해줘
