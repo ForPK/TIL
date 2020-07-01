@@ -504,15 +504,22 @@ console.log(count); // 5
 
 export default countBiggerThanTen;
 
+// 객체 생성자는 함수를 통해서 새로운 객체를 만들고 그 안에 넣고 싶은 값, 함수를
+// 구현할 수 있게 해줌
 function Animal(type, name, sound) {
   // 객체 생성사 대문자 시작 + new 키워드 사용
   this.type = type;
   this.name = name;
   this.sound = sound;
-  this.say = function () {
-    console.log(this.sound);
-  };
+  //this.say = function() {
+  //console.log(this.sound);
+  //};
 }
+
+// 위 세 줄을 아래처럼 꺼내옴
+Animal.prototype.say = function () {
+  console.log(this.sound);
+};
 
 // 프로토타입 역할 : 객체 생성자로 무언가 만들었을때 그걸로 만든 것들끼리
 // 공유할 수 있는 어떤 값이나 함수
@@ -520,5 +527,50 @@ function Animal(type, name, sound) {
 const yssaurus = new Animal("이구아나", "영수", "이뻐");
 const sybaby = new Animal("이구아나", "수영", "날좀좋아해줘");
 
+//Animal.prototype.say = function() 이것은 아래와 같음
+//function say() {
+//  console.log(this.sound);
+//}
+
+// yssaurus.say = say;
+// sybaby.say = say;
+
 yssaurus.name; // console was cleared
 sybaby.say(); // 날좀좋아해줘
+
+// 프로토타입은 어떠한 공유되는 함수나 값을 설정하는 것
+// 객체생성자는 함수를 new 키워드를 사용해서 호출하게 됐을때 어떤 새로운 객체를 만들게
+// 되고 그 객체 내부에 값을 집어넣을 수 있고 프토로타입을 이용해서 기능구현을 할 수 있게 해줌
+
+class Animal {
+  // 객체생성자
+  constructor(type, name, sound) {
+    this.type = type;
+    this.name = name;
+    this.sound = sound;
+  }
+  say() {
+    console.log(this.sound);
+  }
+}
+
+// extends 특정 키워드를 상속 받는다
+class Dog extends Animal {
+  constructor(name, sound) {
+    super("개", name, sound);
+  }
+}
+
+class Cat extends Animal {
+  constructor(name, sound) {
+    super("고양이", name, sound);
+  }
+}
+
+const dog = new Dog("멍멍이", "멍멍");
+const cat = new Cat("야옹이", "야옹");
+const cat2 = new Cat("야아아옹이", "야아아오옹");
+
+dog.say(); // 멍멍
+cat.say(); // 야옹
+cat2.say(); // 야아아오옹
