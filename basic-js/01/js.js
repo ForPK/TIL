@@ -518,6 +518,7 @@ function Animal(type, name, sound) {
 
 // 위 세 줄을 아래처럼 꺼내옴
 Animal.prototype.say = function () {
+  //익명함수
   console.log(this.sound);
 };
 
@@ -574,3 +575,60 @@ const cat2 = new Cat("야아아옹이", "야아아오옹");
 dog.say(); // 멍멍
 cat.say(); // 야옹
 cat2.say(); // 야아아오옹
+
+class Disney {
+  constructor(cate) {
+    this.cate = cate;
+    this.char = [];
+  }
+  addChar(char) {
+    //클래스 내부에 구현하는 함수들 : 메소드
+    this.char.push(char);
+  }
+  print() {
+    const arr = this.char.join(", ");
+    console.log(`디즈니 ${this.cate}캐릭터는 ${arr}.`);
+  }
+}
+
+const charAni = new Disney("동물");
+charAni.addChar("데이지 덕");
+charAni.addChar("도날드 덕");
+charAni.addChar("미키마우스");
+charAni.addChar("미니마우스");
+
+const charHum = new Disney("사람");
+charHum.addChar("에리얼");
+charHum.addChar("스노우화이트");
+charHum.addChar("벨");
+charHum.addChar("오로라");
+charHum.addChar("신데렐라");
+charHum.addChar("라푼젤");
+charHum.addChar("자스민");
+
+charAni.print();
+charHum.print();
+
+/* 삼항 연산자 */
+let arr = [];
+let txt = "";
+
+if (arr.length === 0) {
+  txt = "값 없음";
+} else {
+  txt = "값 있음";
+}
+
+console.log(txt);
+
+arr = ["수영이 애플마우스"];
+txt = arr.length === 1 ? `값 있` : `값 없`;
+
+console.log(txt);
+
+const some1 = false;
+const some2 = false;
+
+const value = some1 ? "true" : some2 ? "some2 true" : "some2 false";
+
+console.log(value);
