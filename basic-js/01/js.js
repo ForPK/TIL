@@ -626,9 +626,47 @@ txt = arr.length === 1 ? `값 있` : `값 없`;
 
 console.log(txt);
 
+// 삼항 연산자 중첩해서 쓸 수 있음. 헷갈리니까 웬만하면 한 번만 쓰기
 const some1 = false;
 const some2 = false;
 
 const value = some1 ? "true" : some2 ? "some2 true" : "some2 false";
 
 console.log(value);
+
+/* falsy & truthy */
+function print(aa) {
+  if (!person) {
+    //if( person === undefined || person === null ) { // null checking
+    return;
+  }
+  console.log(aa.name);
+}
+
+const person = {
+  name: null,
+};
+
+print(person);
+
+// falsy
+console.log(!undefined); // true
+console.log(!null);
+console.log(!"");
+console.log(!NaN);
+console.log(!false);
+console.log(!0);
+
+// truthy (위 falsy 빼고 모두)
+console.log(!3); //false
+console.log(!"ys");
+console.log(!["arr"]);
+console.log(![]);
+console.log(!{});
+
+let value = {}; //true
+value = null; // false
+
+const truthy = !!value;
+//const truthy = value ? true : false;
+console.log(truthy);
