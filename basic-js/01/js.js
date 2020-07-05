@@ -670,3 +670,361 @@ value = null; // false
 const truthy = !!value;
 //const truthy = value ? true : false;
 console.log(truthy);
+
+/* 단축 평가 논리 계산법 */
+
+// && 연산자
+// 어떤 상황에서 쓰는지? 특정 값이 유효할때만 어떤 값을 조회해야할 상황
+console.log(true && "blah"); // blah 앞이 true면 연산 결과 뒤에 것
+console.log(false && "blah"); // false 앞이 false면 뒤에껀 보지도 않음
+console.log("blah" && "blah blah"); //blah blah 둘 다 true면 앞이 true여서 뒤에꺼가 옴
+console.log(undefined && "blah"); // undefined
+console.log(null && "blah"); // null
+console.log(0 && "blah"); // 0
+console.log("" && "blah"); // ''
+
+const obj = null;
+const name = obj && obj.name;
+console.log(name); //null
+
+// 간단히 쓰는 법
+const namelessAni = {
+  name: "",
+};
+function getName(ani) {
+  const name = ani && ani.name;
+  return name || "이름 음슴";
+  // if (!name) {
+  //   return '이름 음슴'
+  // }
+  // return ani.name;
+}
+
+const nameless = getName(namelessAni);
+console.log(nameless); // 이름 음슴
+
+// || 연산자
+// 어떤 상황에서 쓰는지? 어떠한 값이 없을때 이거 사용할래
+console.log(false || "hello"); // hello 앞이 false면 뒤에꺼
+console.log(0 || "hello"); // hello
+console.log(false || 0); // 0 둘 다 false면 뒤에꺼
+
+console.log(1 || "hello"); // 1 앞이 true면 뒤에껀 보지도 않음
+console.log("안녕" || "hello"); // 안녕
+
+/* 함수의 기본 파라미터 */
+function circle(r) {
+  const radius = r || 1;
+  return Math.PI * radius * radius;
+}
+
+const ans = circle();
+console.log(ans);
+
+// r에 기본값 1 넣어줌
+function circle(r = 1) {
+  return Math.PI * r * r;
+}
+
+// const circle = ( r = 1 ) => Math.PI * r * r;
+
+const ans = circle();
+console.log(ans);
+
+/* 조건문 간단하게 작성하기 */
+function animals(txt) {
+  // return txt === 'iguana' || txt === 'dog' || txt === 'cat';
+  const ani = ["iguana", "dog", "cat"];
+  return ani.includes(txt);
+}
+
+// 더 간단하게
+const animals = (txt) => ["iguana", "dog", "cat"].includes(txt);
+
+console.log(animals("iguana")); // true
+console.log(animals("australopithecus")); // false
+
+// 어떤 값을 넣었을 때마다 값이 달라질때 객체를 활용하면 편함
+function sounds(hear) {
+  // switch case에서  return을 쓰면 break 안 써도 됨.
+  // switch(hear) {
+  //   case 'sooyoung' :
+  //     return '쉐에에에에 펄럭';
+  //   case 'youngsoo' :
+  //     return 'zzz';
+  //   case 'bandi' :
+  //     return 'wal wal';
+  //   default :
+  //     return 'no comment';
+  // }
+
+  // if(hear === 'sooyoung') return '쉐에에에에 펄럭';
+  // if(hear === 'youngsoo') return 'zzz';
+  // if(hear === 'bandi') return 'wal wal';
+  // return 'no comment';
+
+  const speak = {
+    sooyoung: "쉐에에에에 펄럭",
+    youngsoo: "zzz?",
+    bandi: "wal wal",
+  };
+
+  return speak[hear] || "no comment";
+}
+
+console.log(sounds("sooyoung")); // 쉐에에에에 펄럭
+console.log(sounds("youngsoo")); // zzz
+console.log(sounds("bandi")); // wal wal
+console.log(sounds("australopithecus")); // no comment
+
+// 특정 값이 무엇으로 주어지느냐에 따라서 다른 코드를 실행하고 싶을때
+function getSounds(hear) {
+  const speak = {
+    sooyoung: () => {
+      console.log("쉐에에에에 펄럭");
+    },
+    youngsoo() {
+      console.log("zzz?");
+    },
+    // 추천하진 않음, 익명함수로 할 바엔 위에 것으로
+    bandi: function () {
+      console.log("wal wal");
+    },
+  };
+  // if (!speak[hear]) {
+  //   console.log('no comment');
+  //   return;
+  // }
+  // speak[hear]();
+
+  const spk = speak[hear];
+  if (!spk) {
+    console.log("no comment");
+    return;
+  }
+  spk();
+}
+
+getSounds("sooyoung"); // 쉐에에에에 펄럭
+getSounds("youngsoo"); // zzz
+getSounds("bandi"); // wal wal
+getSounds("australopithecus"); // no comment
+
+/* 비구조화 할당(구조 분해) */
+const obj = { a: 1 };
+const { a, b } = obj;
+
+// function aa({ a, b = 2 }) {
+//   console.log(a);
+//   console.log(b /* || 5 */);
+// }
+
+const { a, b = 5 } = obj;
+
+console.log(a);
+console.log(b);
+
+// 비구조화 할당할 때 이름 바꾸는 방법
+const sooyoung = {
+  name: "수영",
+  tpye: "이가나",
+};
+
+const { name: nickname } = sooyoung;
+console.log(nickname); // 수영
+
+// 배열 비구조화 할당
+// const arr = [1, 2];
+
+// const one = arr[0];
+// const two = arr[1];
+
+const arr = [1];
+
+const [one, two = 2] = arr;
+
+console.log(one);
+console.log(two);
+
+// 객체의 깊숙한 곳 꺼내기
+const deepObj = {
+  state: {
+    info: {
+      name: "pk",
+      tool: ["photoshop", "illustrator", "drawing", "sewing machine"],
+    },
+  },
+  value: 7,
+};
+
+// const {
+//   state: {
+//     info: {
+//       name, tool
+//     }
+//   },
+//   value
+// } = deepObj;
+
+const {
+  state: {
+    info: {
+      // 선호하는 방법은 아니지만 이렇게도 할 수 있다 정도
+      name,
+      tool: [firTool, secTool],
+    },
+  },
+  value,
+} = deepObj;
+
+// 이 방법을 더 선호함
+// // const { name, tool: [firTool, secTool] } = deepObj.state.info;
+// const { name, tool } = deepObj.state.info;
+// const { value } = deepObj;
+
+const extracted = {
+  name,
+  //tool,
+  firTool,
+  secTool,
+  value,
+};
+
+console.log(extracted);
+
+/* spread & rest ... */
+// 기존에 만들었던 객체를 참고해서 객체를 만들때(기존 객체 복사)
+// 일반
+const ys = {
+  name: "영수사우루스",
+};
+
+const applemouseYs = ys;
+applemouseYs.attribute = "4가지";
+
+const greenAmYs = applemouseYs;
+greenAmYs.color = "갓 나온 새싹 같았는데 노각";
+
+console.log(ys); // {name: "영수사우루스", attribute: "4가지", color: "갓 나온 새싹 같았는데 노각"}
+console.log(applemouseYs); // {name: "영수사우루스", attribute: "4가지", color: "갓 나온 새싹 같았는데 노각"}
+console.log(greenAmYs); // {name: "영수사우루스", attribute: "4가지", color: "갓 나온 새싹 같았는데 노각"}
+
+console.log(ys === greenAmYs); // true
+
+// spread
+const ys = {
+  name: "영수사우루스",
+};
+
+const applemouseYs = {
+  // name: '영수사우루스',
+  ...ys,
+  attribute: "4가지",
+};
+
+const greenAmYs = {
+  // name: '영수사우루스',
+  // attribute: '4가지',
+  ...applemouseYs,
+  color: "갓 나온 새싹 같았는데 노각",
+};
+
+// 같은 건 아래꺼가 덮어쓰게 됨
+// const orangeAmYs = {
+//   ...applemouseYs,
+//   color: 'orange';
+// }
+
+// 컬러가 앞에 오면 아래꺼가 덮어쓰게 됨.
+// const orangeAmYs = {
+//   color: 'orange';
+//   ...applemouseYs,
+// } "갓 나온 새싹 같았는데 노각"
+
+console.log(ys); // {name: "영수사우루스"}
+console.log(applemouseYs); // {name: "영수사우루스", attribute: "4가지"}
+console.log(greenAmYs); // {name: "영수사우루스", attribute: "4가지", color: "갓 나온 새싹 같았는데 노각"}
+
+// 배열에서도 사용가능
+const igu = ["영수", "수영"];
+const iguAna = [...igu, "영수영"];
+// === const iguAna = igu.concat('영수영');
+
+console.log(igu); // ["영수", "수영"]
+console.log(iguAna); // ["영수", "수영", "영수영"]
+
+// 여러 번 사용 가능
+const num = [1, 2, 3];
+const addNum = [...num, 1004, ...num];
+console.log(addNum); // [1, 2, 3, 1004, 1, 2, 3]
+
+// rest
+// 퍼져있는 것들을 모아오는 역할
+const greenAmYs = {
+  name: "영수사우루스",
+  attribute: "4가지",
+  color: "갓 나온 새싹 같았는데 노각",
+};
+
+const { color, ...applemouseYs } = greenAmYs;
+console.log(color); // 갓 나온 새싹 같았는데 노각
+console.log(applemouseYs); // {name: "영수사우루스", attribute: "4가지"}
+
+const { attribute, ...ys } = applemouseYs;
+console.log(ys); // {name: "영수사우루스"}
+
+// 배열에서 rest
+const num = [1, 2, 3];
+
+const [one, ...asf] = num;
+// const [ ...asf, last ] = num;
+// 이렇게는 안됨. 배열에서는 rest가 마자막에 와야함
+console.log(one); // 1
+console.log(asf); // [2, 3]
+
+// 함수 파라미터에서의 rest
+// function sum(a, b, c, d, e, f, g) {
+//  return a + b + c + d + e + f + g;
+// }
+console.log(sum(1, 2, 3, 4, 5, 6)); // NaN 하나가 없어서
+
+// function sum(a, b, c, d, e, f, g) {
+//   let result = 0;
+//   if(a) result += a;
+//   if(b) result += b;
+//   if(c) result += c;
+//   if(d) result += d;
+//   if(e) result += e;
+//   if(f) result += f;
+//   if(g) result += g;
+//   return result;
+// }
+
+function sum(...rest) {
+  return rest.reduce((acc, crr) => acc + crr, 0);
+}
+
+console.log(sum(1, 2, 3, 4, 5, 6, 7, 8)); // 36
+
+// 파라미터 & 인자
+// 파라미터는 함수에서 받아오는 값, 인자는 함수를 사용할때 쓰는 값
+function substract(x, y) {
+  // 파라미터
+  return x - y;
+}
+
+const result = substract(1, 2); // 인자
+console.log(result); // -1
+
+// 인자에서도 ...을 사용할 수 있음
+const num = [1, 2];
+// const result = substract(num[0], num[1]);
+const result = substract(...num);
+console.log(result); // -1
+
+function sum(...rest) {
+  return rest.reduce((acc, crr) => acc + crr, 0);
+}
+
+const num = [1, 2, 3, 4, 5, 6, 7, 8];
+console.log(sum(...num)); // 36
