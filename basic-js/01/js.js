@@ -1028,3 +1028,372 @@ function sum(...rest) {
 
 const num = [1, 2, 3, 4, 5, 6, 7, 8];
 console.log(sum(...num)); // 36
+
+/* 문제 */
+//함수에 n 개의 숫자들이 파라미터로 주어졌을 때, 그 중 가장 큰 값을 알아내세요.
+function max() {
+  return 0;
+}
+
+const result = max(1, 2, 3, 4, 10, 5, 6, 7);
+console.log(result);
+
+// 테스트 코드에서 불러오기 위하여 사용하는 코드
+export default max;
+
+// 정답
+function max(...rest) {
+  return rest.reduce((acc, crr) => (acc < crr ? crr : acc), []);
+}
+
+const result = max(1, 2, 3, 4, 10, 5, 6, 7);
+console.log(result);
+
+// 테스트 코드에서 불러오기 위하여 사용하는 코드
+export default max;
+
+/* scope : global, function, block(switch or if 등등) */
+// global
+const value = "hello";
+
+function myFunc() {
+  console.log("myFunc: ");
+  console.log(value); // hello
+}
+
+//function scope
+function otherFunc() {
+  console.log("otherFunc: ");
+  const value = "bye";
+  console.log(value); // bye
+}
+
+myFunc();
+otherFunc();
+
+console.log("global: ");
+console.log(value); // hello
+
+function myFunc2() {
+  const value = "bye2";
+  const anotherValue = "world";
+  function functionInside() {
+    console.log("functionInside: ");
+    console.log(value); // bye2
+    console.log(anotherValue); // world
+  }
+  functionInside();
+}
+
+// block scope
+function myFunc3() {
+  const value = "bye bye";
+  if (true) {
+    const value = "myFunc3";
+    console.log("block scopt: ");
+    console.log(value); // myFunc3
+  }
+  console.log("function scope: ");
+  console.log(value); // bye bye
+}
+
+myFunc3();
+console.log("global scope: ");
+console.log(value); // hello
+console.log(anotherValue); // defined
+
+// var의 경우
+var value = "hello";
+
+// block scope
+function myFunc3() {
+  var value = "bye bye";
+  if (true) {
+    var value = "myFunc3";
+    console.log("block scopt: ");
+    console.log(value); // myFunc3
+  }
+  console.log("function scope: ");
+  console.log(value); // myFunc3
+}
+// 같은 블록 안에 제일 마지막으로 선언한걸로 됨.
+
+myFunc3();
+console.log("global scope: ");
+console.log(value); // hello
+
+// let의 경우
+let value = "hello";
+
+// block scope
+function myFunc3() {
+  let value = "bye bye";
+  if (true) {
+    let value = "myFunc3";
+    console.log("block scopt: ");
+    console.log(value); // myFunc3
+  }
+  console.log("function scope: ");
+  console.log(value); // bye bye
+}
+// let은 scope가 블록으로 제한
+// 블록 바깥은 영향이 안감
+
+myFunc3();
+console.log("global scope: ");
+console.log(value); // hello
+
+/* Hoisting */
+// 자바스크립트에서 아직 선언되지 않은 함수, 또는 변수를 끌어 올려서 사용할 수 있는 작동 방식
+// 호이스팅은 되도록이면 피하는게 좋음 (헷갈려지고 유지보수에 도움안됨)
+// const, let은 변수에 대한 호이스팅이 안됨
+// 함수를 위에 호출하든 아래 호출하든 작동되는 것.
+myFunc();
+
+function myFunc() {
+  console.log("hello world");
+}
+
+/* 비동기식 처리 */
+function work(callback) {
+  setTimeout(() => {
+    const start = Date.now();
+    for (let i = 0; i < 1000000000; i++) {}
+    const end = Date.now();
+    console.log(end - start + "ms");
+    callback(end - start);
+  }, 0);
+  // 시간 흐른 후 실행하겠다 실제로는 4ms후에 실행. 브라우저에서 지정한 최소값
+}
+
+console.log("작업 시작");
+work((ms) => {
+  console.log("작업이 끝났습니다.");
+  console.log(ms + "ms 걸렸다고 합니다.");
+}); // 770ms
+console.log("다음 작업");
+
+// 작업 시작 -> 다음 작업 -> 770ms -> 작업이 끝났습니다. -> 770ms 걸렸다고 합니다.
+// 비동기처리. Ajax Web API 요청, 파일 읽기, 암호화/복호화, 작업예약할때 사용.
+
+/* promise 비동기식을 좀 더 편하게 처리 위한 기능 */
+//  callback 함수를 많이 사용하는 경우 코드가 어떻게 복잡해지는지
+// 숫자 n을 파라미터로 받아와서 5번에 걸쳐서 1초마다 1씩 더해서 출력하는 작업
+function increaseAndPrint(n, callback) {
+  // setTimeout(() => {}, 1000)
+  setTimeout(() => {
+    const increased = n + 1;
+    console.log(increased);
+    if (callback) {
+      callback(increased);
+    }
+  }, 1000);
+}
+
+// 콜백 지옥
+increaseAndPrint(0, (n) => {
+  increaseAndPrint(n, (n) => {
+    increaseAndPrint(n, (n) => {
+      increaseAndPrint(n, (n) => {
+        increaseAndPrint(n, (n) => {
+          console.log("작업 끝!");
+        });
+      });
+    });
+  });
+});
+
+// promise
+const myPromise = new Promise((resolve, reject) => {
+  // 성공하면 resolve, 실패하면 reject
+  setTimeout(() => {
+    // 성공하는 예제
+    //resolve("result");
+
+    // 실패하는 예제 아래 .catch 추가
+    reject(new Error());
+  }, 1000);
+});
+
+// then. promise가 끝나고 할 작업 설정
+myPromise
+  .then((result) => {
+    console.log(result);
+  })
+  .catch((e) => {
+    console.error(e); // 1초 뒤 Error
+  });
+
+// promise를 만드는 함수
+function increaseAndPrint(n) {
+  // callback은 받아오지 않음
+  return new Promise((resolve, reject) => {
+    // 값이 5가 되면 실패 처리
+    setTimeout(() => {
+      const value = n + 1;
+      if (value === 5) {
+        const error = new Error();
+        // error 이름 정할 수 있음
+        error.name = "ValueIsFiveError";
+        reject(error);
+        return; // 이 다음은 작업하지 않겠다
+      }
+      // 실패하지 않은 경우
+      console.log(value);
+      resolve(value);
+    }, 1000);
+  });
+}
+
+// increaseAndPrint(0).then(n => {
+//   console.log("result: ", n);
+// });
+
+// increaseAndPrint(0)
+//   .then(n => {
+//     return increaseAndPrint(n);
+//   })
+//   .then(n => {
+//     return increaseAndPrint(n);
+//   })
+//   .then(n => {
+//     return increaseAndPrint(n);
+//   })
+//   .then(n => {
+//     return increaseAndPrint(n);
+//   })
+//   .then(n => {
+//     return increaseAndPrint(n);
+//   })
+//   .catch(e => {
+//     console.error(e); // ValueIsFiveError
+//   });
+
+increaseAndPrint(0)
+  .then(increaseAndPrint)
+  .then(increaseAndPrint)
+  .then(increaseAndPrint)
+  .then(increaseAndPrint)
+  .then(increaseAndPrint)
+  .catch((e) => {
+    console.error(e); // ValueIsFiveError
+  });
+
+// promise는 비동기 작업이 많아져도 코드가 깊어지지 않음
+// 에러를 잡을때 어떤 부분인지 파악하기 어려움
+// 특정 조건에 따라 분기 나누기 어려움
+// 특정값을 공유해가면서 하기 어려움
+
+/* promise를 더욱 쉽게 사용하게 해주는 async await */
+// ES8
+// function sleep(ms) {
+//   return new Promise(resolve => setTimeout(resolve, ms));
+// }
+
+// async function process() {
+//   console.log("안녕하세요");
+//   await sleep(3000);
+//   console.log("반갑습니다");
+//   return true;
+// }
+
+// process().then(val => {
+//   console.log(val);
+// });
+// 안녕하세요 -> 3초 뒤 -> 반갑습니다 -> true
+
+// promise에서 에러를 발생시키고 싶을때
+// throw 에러 발생 시킬때
+// try, catch 에러 잡아낼때
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function makeError() {
+  await sleep(1000);
+  const error = new Error();
+  throw error;
+}
+
+async function process() {
+  try {
+    await makeError();
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+process(); // 1초 뒤 에러 발생
+
+// 비동기 함수 여러가지 만들기
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+// 화살표 함수로 작성할때 async를 쓰고 싶다면 괄호 앞에 쓰기
+const getDog = async () => {
+  await sleep(1000);
+  return "멍멍이";
+};
+
+const getIgu = async () => {
+  await sleep(500);
+  return "이가나";
+};
+
+const getCat = async () => {
+  await sleep(3000);
+  return "바론";
+};
+
+async function process() {
+  const dog = await getDog();
+  console.log(dog);
+  const igu = await getIgu();
+  console.log(igu);
+  const cat = await getCat();
+  console.log(cat);
+}
+
+process();
+// 1000 있다가 멍멍이, 500 있다가 이가나, 3000 있다가 바론
+// 하나씩 처리
+
+// promise.all를 동시에 처리하고 싶다
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+// 화살표 함수로 작성할때 async를 쓰고 싶다면 괄호 앞에 쓰기
+const getDog = async () => {
+  await sleep(1000);
+  return "멍멍이";
+};
+
+const getIgu = async () => {
+  await sleep(500);
+  return "이가나";
+};
+
+const getCat = async () => {
+  await sleep(3000);
+  return "바론";
+};
+
+// async function process() {
+//   const results = await Promise.all([getDog(), getIgu(), getCat()]);
+//   console.log(results);
+// }
+
+// process(); // 3초 뒤에(바론이 3000) ["멍멍이", "이가나", "바론"]
+
+// promise.race
+async function process() {
+  const first = await Promise.race([getDog(), getIgu(), getCat()]);
+  console.log(first);
+}
+
+process(); // 이가나 (500) promise.race 젤 빠른 걸로 나옴
+// 위 셋(멍멍이, 이가나, 바론) 중에 가장 빨리 끝나는 것이 에러가 나면 전체 에러로 간주
+// 두 번째가 에러나면 에러로 간주하지 않음
+// 셋 중 하나라도 에러가 있으면 try catch로 에러를 잡을 수 있음
