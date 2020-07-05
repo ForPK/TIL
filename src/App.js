@@ -1,25 +1,14 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Hello from "./Hello.js";
+import Wrapper from "./wrapper.js";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Wrapper>
+      {/* 이 안의 내용들이 children */}
+      <Hello name="react" color="red" isSpecial={true} {/* ={true}라는 값 설정빼도 true로 간주 */} />
+      <Hello color="pink" />
+    </Wrapper>
   );
 }
 
