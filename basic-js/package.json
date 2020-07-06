@@ -1,0 +1,9 @@
+{
+  "name": "TIL",
+  "version": "1.0.0",
+  "description": "Today I Learn",
+  "main": "index.js",
+  "repository": "https://github.com/ForPK/TIL.git",
+  "author": "ForPK <for_pk@naver.com>",
+  "license": "MIT"
+}
