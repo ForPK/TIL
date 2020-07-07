@@ -43,7 +43,7 @@ function UserList() {
       <User user={users[1]} />
       <User user={users[2]} /> */}
 
-      {user.map((user) => (
+      {users.map((user) => (
         <User user={user} key={user.id} />
       ))}
       {/* 키 값을 index로 줄 순 있지만 비효율적 */}

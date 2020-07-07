@@ -27,6 +27,7 @@ function InputSample() {
       nickname: "",
     });
     nameInput.current.focus();
+    // current가 name input을 가리킴
   };
   return (
     <div>
@@ -60,4 +61,5 @@ function InputSample() {
 // 거기에 특정 값을 덮어씌우고 그걸 새로운 상태로 설정해줘야함 불변성 지켜줘야함
 // 그래야 리액트가 변화 발생한 걸 감지
 // 불변성을 지켜줘야만 컴포넌트 업데이트 성능을 최적화할 수 있음
+
 export default InputSample;
