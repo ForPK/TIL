@@ -1,7 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 function User({ user, onRemove, onToggle }) {
   const { username, email, id, active } = user;
+
+  // useEffect(() => {
+  //   console.log("컴포넌트가 화면에 나타남");
+  //   // 이미 화면에 나타난 후의 시점이여서 돔에 바로 접근해도 됨
+  //   // props -> state
+  //   // REST API
+  //   // D3, Video.js 라이브러리
+  //   // setInterval, setTimeout
+  //   return () => {
+  //     // clearInterval, clearTimeout
+  //     // 라이브러리 인스턴스 제거
+  //     console.log("컴퓨넌트가 화면에서 사라짐");
+  //   };
+  // }, []);
+
+  useEffect(() => {
+    console.log("user 값이 설정됨");
+    console.log(user);
+    return () => {
+      console.log("user 값이 바뀌기 전");
+      console.log(user);
+    };
+  }, [user]);
+  // 내부에서 사용하는 값이 있다면 배열 안에 넣어줘야함
   return (
     <div>
       <b

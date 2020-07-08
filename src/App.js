@@ -1,6 +1,11 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useMemo, useCallback } from "react";
 import UserList from "./UserList.js";
 import CreateUser from "./CreateUser.js";
+
+function countActiveUsers(users) {
+  console.log("활성 사용자 수를 세는 중...");
+  return users.filter((user) => user.active).length;
+}
 
 function App() {
   const [inputs, setInputs] = useState({
@@ -9,13 +14,16 @@ function App() {
   });
 
   const { username, email } = inputs;
-  const onChange = (e) => {
-    const { name, value } = e.target;
-    setInputs({
-      ...inputs,
-      [name]: value,
-    });
-  };
+  const onChange = useCallback(
+    (e) => {
+      const { name, value } = e.target;
+      setInputs({
+        ...inputs,
+        [name]: value,
+      });
+    },
+    [inputs]
+  );
 
   //const users = [ 이걸 컴포넌트 상태로서 관리 (userState로 감싸기)
   const [users, setUsers] = useState([
@@ -46,7 +54,7 @@ function App() {
 
   // 위에 3까지 있으니
   const nextId = useRef(4);
-  const onCreate = () => {
+  const onCreate = useCallback(() => {
     const user = {
       id: nextId.current,
       username,
@@ -61,21 +69,29 @@ function App() {
       email: "",
     });
     nextId.current += 1;
-  };
+  }, [users, username, email]);
 
-  const onRemove = (id) => {
-    // user.id 가 파라미터로 일치하지 않는 원소만 추출해서 새로운 배열을 만듬
-    // = user.id 가 id 인 것을 제거함
-    setUsers(users.filter((user) => user.id !== id));
-  };
+  const onRemove = useCallback(
+    (id) => {
+      // user.id 가 파라미터로 일치하지 않는 원소만 추출해서 새로운 배열을 만듬
+      // = user.id 가 id 인 것을 제거함
+      setUsers(users.filter((user) => user.id !== id));
+    },
+    [users]
+  );
 
-  const onToggle = (id) => {
-    setUsers(
-      users.map((user) =>
-        user.id === id ? { ...user, active: !user.active } : user
-      )
-    );
-  };
+  const onToggle = useCallback(
+    (id) => {
+      setUsers(
+        users.map((user) =>
+          user.id === id ? { ...user, active: !user.active } : user
+        )
+      );
+    },
+    [users]
+  );
+
+  const count = useMemo(() => countActiveUsers(users), [users]);
 
   return (
     <>
@@ -86,6 +102,7 @@ function App() {
         onCreate={onCreate}
       />
       <UserList users={users} onRemove={onRemove} onToggle={onToggle} />
+      <p>활성 사용자 수 : {count}</p>
     </>
   );
 }
@@ -93,4 +110,6 @@ function App() {
 //useRef는 특정 돔을 선택하고 싶을때도 사용할 수 있지만
 // 변수를 계속 기억하고 싶을때
 // useRef로 관리하는 값은 바뀌어도 컴포넌드가 리렌더링 되지 않음
+// useMemo를 안쓰면 인풋에 입력되는 한 자, 한 자 적을때마다 count 셈
+// [] 값을 안 넣으면 최신상태를 참조하는게 아니라 처음 렌더링된 상태를 참조하게 됨
 export default App;
