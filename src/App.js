@@ -23,19 +23,22 @@ function App() {
       id: 1,
       username: "ForPK",
       email: "Blah0",
+      active: true,
     },
     {
       id: 2,
       username: "ys",
       email: "Blah1",
+      active: false,
     },
     {
       id: 3,
       username: "sy",
       email: "Blah2",
+      active: false,
     },
   ]);
-  // 배열에 값을 추가하려면 push splice sort 사용 x
+  // 배열에 값을 추가하려면 push splice sort 사용 x 업데이트안됨
   // 꼭 사용을 해야한다면 배열을 한 번 복사하기
   // 기존의 배열을 바꾸지 않으면서 새로운 배열을 만들면서
   //거기에 변화를 주는 방식으로 구현을 해줘야함
@@ -60,6 +63,20 @@ function App() {
     nextId.current += 1;
   };
 
+  const onRemove = (id) => {
+    // user.id 가 파라미터로 일치하지 않는 원소만 추출해서 새로운 배열을 만듬
+    // = user.id 가 id 인 것을 제거함
+    setUsers(users.filter((user) => user.id !== id));
+  };
+
+  const onToggle = (id) => {
+    setUsers(
+      users.map((user) =>
+        user.id === id ? { ...user, active: !user.active } : user
+      )
+    );
+  };
+
   return (
     <>
       <CreateUser
@@ -68,7 +85,7 @@ function App() {
         onChange={onChange}
         onCreate={onCreate}
       />
-      <UserList users={users} />
+      <UserList users={users} onRemove={onRemove} onToggle={onToggle} />
     </>
   );
 }
