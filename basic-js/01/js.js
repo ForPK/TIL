@@ -379,25 +379,6 @@ console.log(fucJoin.join()); // 1,2,3 문자열로 변환, 쉼표로 구분
 console.log(fucJoin.join(" ")); // 1 2 3 ' '을 문자열 사이사이 넣어줌
 console.log(fucJoin.join(" # ")); // 1 # 2 # 3
 
-// [참조] 킹강현 최고
-/* Mutating 변하게 된다. */
-//원본 배열을 변형 시킨다.
-//새로운 배열을 반환하지만 주소 참조가 되어 있어서 원본에 수정이 발생한다.
-
-// - array.splice
-// - array.push, array.unshift > 값을 추가 add
-// - array.pop, array.shift > 값을 제거 remove
-// - array.sort, array.fill, array.reverse > 값을 재가공 replace
-
-/* Non Mutating 변하지 않는다. */
-//원본 배열 변형을 시키지 않는다. 새로운 배열을 반환하기 때문에 변형을 시키지 않는다.
-
-// - array.slice
-// - array.concat, spread ... > 값을 추가 add
-// - array.filter > 값을 제거 remove
-// - array.map, array.reduce > 값을 재가공 replace
-
-// reduce 배열이 주어졌을때 안에 있는 모든 값을 사용하여 연산해야할때
 anyNum = [1, 2, 3, 4, 5];
 
 let sum = 0;
@@ -419,6 +400,8 @@ let avg = anyNum.reduce((accumulator, current, index, array) => {
 console.log(avg);
 
 // reduce 꼭 숫자가 아니어도 됨
+// reduce 배열이 주어졌을때 안에 있는 모든 값을 사용하여 연산해야할때
+
 let anyAB = ["a", "a", "b", "c", "b", "c", "a", "e", "a"];
 //위로 했을때 결과 값이 {a: 4, b: 2, c: 2, e: 1…}
 let anyABC = ["a", "a", "b", "c", "c", "e"];
